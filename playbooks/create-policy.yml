@@ -1,0 +1,26 @@
+---
+
+- name: Create Policy Objects
+  hosts: palos
+  gather_facts: false
+  connection: local
+
+  collection:
+          - paloaltonetworks.panos
+
+  tasks:
+    - name: Allow ping
+      panos_security_rule:
+        provider: '{{ palo_provider }}'
+        rule_name: 'sec_allow-ping'
+        description: 'Request details'
+        source_zone: ['zone-untrust']
+        source_ip: ['any']
+        destination_zone: ['zone-trust']
+        destination_ip: ['10.1.1.5']
+        application: ['ping']
+        action: 'allow'
+
+    - name: Commit
+      panos_commit_firewall:
+        provider: '{{ palo_provider }}'

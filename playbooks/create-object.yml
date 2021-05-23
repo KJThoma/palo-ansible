@@ -1,0 +1,29 @@
+---
+
+- name: Create Address Objects
+  hosts: palos
+  gather_facts: false
+  connection: local
+
+  collections:
+          paloaltonetworks.panos
+
+  tasks:
+    - name: Create Address Object1
+      panos_address_object:
+        provider: '{{ palo_provider }}'
+        name: 'addr_test-object1'
+        value: '10.1.1.5'
+        description: 'Request details'
+
+    - name: Create Address Object2
+      panos_address_object:
+        provider: '{{ palo_provider }}'
+        name: 'addr_test-object2'
+        value: '10.1.1.6'
+        description: 'Request details'
+
+    - name: Commit
+      panos_commit_firewall:
+        provider: '{{ palo_provider }}'
+
